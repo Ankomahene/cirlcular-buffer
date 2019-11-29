@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'io.turntabl'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+def apps = [
+        'CircularBufferMain': 'io.turntabl.circularbuffer.Main',
+        ]
+
+apps.each() { appName, className ->
+    tasks.create(name: 'run'+appName, type: JavaExec) {
+        group = 'application'
+        main = className
+        applicationName = appName
+        classpath = jar.outputs.files + project.configurations.runtime
+    }
+}
